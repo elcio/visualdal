@@ -17,13 +17,15 @@ def fielddef(row):
   }
   attrs={
     'name':row.get('name'),
-    'type':types[row.find('datatype').text.lower().split('(')[0]],
+    'type':"'%s'" % types[row.find('datatype').text.lower().split('(')[0]],
   }
   c=row.find('comment')
   if c is not None:
     newattrs=dict([
       i.split('="') for i in c.text.replace('",','|||')[:-1].split('|||')
     ])
+    if 'type' in newattrs:
+      newattrs['type']="'%s'" % newattrs['type']
     attrs.update(newattrs)
   relation=row.find('relation')
   if relation is not None:
@@ -31,7 +33,7 @@ def fielddef(row):
     columnname=relation.get('row')
     if not 'f' in attrs:
       attrs['f']='%%(%s)s' % columnname
-    attrs['type']='%s.%s' % (tablename,columnname)
+    attrs['type']='db.%s' % (tablename)
     attrs['requires']="IS_IN_DB(db,'%s.%s','%s')" % (tablename,columnname,attrs['f'])
   return attrs
 
@@ -44,11 +46,14 @@ def convert(xml):
     for row in table.findall('row'):
       row=fielddef(row)
       if row['name']!='id':
-        rt="'%s', '%s'" % (row['name'],row['type'])
+        if row['type']=="'string'":
+          rt="'%s'" % row['name']
+        else:
+          rt="'%s',%s" % (row['name'],row['type'])
         if 'requires' in row:
           rt+=',requires=%s' % row['requires']
         if 'label' in row:
-          rt+=',label="%s"' % row['label']
+          rt+=",label='%s'" % row['label']
         text+="    Field(%s),\n" % rt
     text+=")\n\n"
   return text
