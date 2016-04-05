@@ -4,7 +4,7 @@ visualdal
 WWW SQL Designer to web2py DAL converter.
 -----------------------------------------
 
-This script converts a XML written by [WWW SQL Designer](http://code.google.com/p/wwwsqldesigner/) to a web2py DAL code (Python). This way, you can use WWW SQL Designer, a great tool, to work on database modeling for you Python software.
+This script converts a XML written by [WWW SQL Designer](http://code.google.com/p/wwwsqldesigner/) to a web2py DAL code (Python). This way, you can use WWW SQL Designer, a great tool, to work on database modeling for your Python software.
 
 The script is in a very early version, but is functional enough that we use it in our projects. Only a few datatypes are supported now: 
 
