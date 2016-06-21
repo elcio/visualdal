@@ -7,10 +7,12 @@ from xml.etree.ElementTree import XML
 def fielddef(row):
   types={
     'bit':'boolean',
+    'char':'string',
     'date':'date',
     'datetime':'datetime',
     'decimal':'decimal(8,2)',
     'int':'integer',
+    'integer':'integer',
     'mediumtext':'text',
     'tinyint':'integer',
     'varchar':'string',
@@ -60,4 +62,3 @@ def convert(xml):
 
 if __name__=='__main__':
   print convert(open(sys.argv[1]).read())
-
